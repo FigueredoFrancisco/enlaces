@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Links</title>
+<style>
+body {
+  margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
+  background-color: grey;
+  font-family: Arial, sans-serif;
+}
+#caja {
+  background: rgba(0,0,0,0.6); padding: 20px; border-radius: 10px; width: 300px; text-align: center;
+}
+input, button {
+  margin: 6px; padding: 8px; border-radius: 5px; border: none; width: 90%;
+}
+button { background: #456; color: #fff; cursor: pointer; }
+a { color: #7fd; text-decoration: none; word-break: break-all; }
+.link { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; margin: 6px 0; }
+</style>
+</head>
+
+<body>
+<div id="caja">
+  <div id="login">
+    <h2>Ingresar / Registrar</h2>
+    <input id="user" placeholder="Usuario">
+    <input id="pass" type="password" placeholder="Contraseña">
+    <button onclick="registrar()">Registrar</button>
+    <button onclick="entrar()">Entrar</button>
+    <p id="msg"></p>
+  </div>
+
+  <div id="links" style="display:none;">
+    <h2>Mis Tareas</h2>
+    <div class="link"><b>Calculadora de medidas</b><br><a href="https://figueredofrancisco.github.io/calculadorademedidas/" target="_blank">https://figueredofrancisco.github.io/calculadorademedidas/</a></div>
+    <div class="link"><b>Calculadora IMC</b><br><a href="https://figueredofrancisco.github.io/imc/" target="_blank">https://figueredofrancisco.github.io/imc/</a></div>
+    <div class="link"><b>Lista de tareas</b><br><a href="https://figueredofrancisco.github.io/todo-list/" target="_blank">https://figueredofrancisco.github.io/todo-list/</a></div>
+    <div class="link"><b>Perfil GitHub</b><br><a href="https://github.com/FigueredoFrancisco" target="_blank">https://github.com/FigueredoFrancisco</a></div>
+    <button onclick="salir()">Cerrar sesión</button>
+  </div>
+</div>
+
+<script>
+const user = document.getElementById("user"),
+      pass = document.getElementById("pass"),
+      msg  = document.getElementById("msg"),
+      login = document.getElementById("login"),
+      links = document.getElementById("links");
+
+function registrar(){
+  if(!user.value || !pass.value) return msg.textContent="Completa los campos.";
+  if(localStorage[user.value]) msg.textContent="Usuario ya existe.";
+  else{ localStorage[user.value]=pass.value; msg.textContent="Registrado con éxito."; }
+}
+
+function entrar(){
+  if(localStorage[user.value]===pass.value){
+    localStorage.activo=user.value;
+    login.style.display="none"; links.style.display="block";
+  } else msg.textContent="Datos incorrectos.";
+}
+
+function salir(){
+  localStorage.removeItem("activo");
+  login.style.display="block"; links.style.display="none";
+}
+
+if(localStorage.activo) entrar();
+</script>
+</body>
+</html>
